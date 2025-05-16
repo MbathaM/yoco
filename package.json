@@ -1,0 +1,27 @@
+{
+  "name": "yoco",
+  "version": "1.0.0",
+  "description": "webhook endpoint for yoco payments",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "yoco",
+    "payments",
+    "webhooks"
+  ],
+  "author": "Melusi Mbatha",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "crypto-js": "^4.2.0",
+    "express": "^5.1.0",
+    "morgan": "^1.10.0",
+    "raw-body": "^3.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^16.5.0"
+  }
+}
