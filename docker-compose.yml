@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile
     contaner_name: app
     network_mode: main
+    restart: unless-stopped
     ports:
       - "3000:3000"
     environment:
