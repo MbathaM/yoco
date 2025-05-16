@@ -4,11 +4,12 @@ import { createHmac, timingSafeEqual } from 'crypto';
 import getRawBody from 'raw-body';
 import morgan from 'morgan';
 import cors from 'cors';
+import serverless from "serverless-http";
 
-const app = express();
+const api = express();
 
 // Set up Morgan logging middleware
-app.use(morgan('dev'));
+api.use(morgan('dev'));
 
 // Set up CORS middleware to allow requests from all origins
 // app.use((req, res, next) => {
@@ -22,7 +23,7 @@ app.use(morgan('dev'));
 // });
 
 // Use CORS middleware
-app.use(cors({
+api.use(cors({
     origin: '*', // Or restrict to specific origins
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: [
@@ -36,7 +37,7 @@ app.use(cors({
     ]
 }));
 
-app.use((req, res, next) => {
+api.use((req, res, next) => {
     getRawBody(req, {
         length: req.headers['content-length'],
         encoding: 'utf-8'
@@ -48,7 +49,7 @@ app.use((req, res, next) => {
 });
 
 // Using Express
-app.post("/my/webhook/url", function(req, res) {
+api.post("/my/webhook/url", function(req, res) {
     const headers = req.headers;
     const requestBody = req.rawBody;
 
@@ -77,12 +78,20 @@ app.post("/my/webhook/url", function(req, res) {
     return res.send(403);
 });
 
-// Add a hello route to test the API
-app.get('/health', (req, res) => {
+// Add a health route to test the API
+api.get('/health', (req, res) => {
     res.json({ status: 'Ok' });
 });
 
-app.listen(3000, () => {
+// Add a hello route to test the API
+api.get('/', (req, res) => {
+    res.json({ message: 'Hello from yoco' });
+});
+
+export const handler = serverless(api);
+
+// Start the server
+api.listen(3000, () => {
     console.log('Server is running on port 3000');
     console.log("Webhook secret:", process.env.YOCO_WEBHOOK_SECRET)
 });
