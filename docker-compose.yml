@@ -1,21 +1,36 @@
-version: '3.8'
+version: "3.8"
 
 services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
+    contaner_name: app
+    network_mode: main
     ports:
       - "3000:3000"
     environment:
       - NODE_ENV=development
       - WEBHOOK_SECRET=${YOCO_WEBHOOK_SECRET}
-
-  nginx:
-    image: nginx:latest
+  npm:
+    image: "jc21/nginx-proxy-manager:latest"
+    container_name: "npm"
+    network_mode: main
+    restart: unless-stopped
     ports:
       - "80:80"
+      - "81:81"
+      - "443:443"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - app
+      - ./data/npm:/data
+      - ./letsencrypt:/etc/letsencrypt
+  portainer:
+    image: portainer/portainer-ce:latest
+    network_mode: main
+    container_name: portainer
+    ports:
+      - "9443:9443"
+    volumes:
+      - ./data/portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
