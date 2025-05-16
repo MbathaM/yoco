@@ -15,11 +15,14 @@
   "author": "Melusi Mbatha",
   "license": "ISC",
   "dependencies": {
+    "@netlify/functions": "^3.1.8",
+    "@types/express": "^5.0.1",
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
     "express": "^5.1.0",
     "morgan": "^1.10.0",
-    "raw-body": "^3.0.0"
+    "raw-body": "^3.0.0",
+    "serverless-http": "^3.2.0"
   },
   "devDependencies": {
     "dotenv": "^16.5.0"
